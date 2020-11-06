@@ -1,0 +1,135 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Calendar;
+import java.util.InputMismatchException;
+//package Trades;
+
+public class Trades
+{
+  Stock[] stockTrades;
+  Scanner input = new Scanner(System.in);
+  Calendar dateTime = Calendar.getInstance();
+  ArrayList<String> tradingStmts = new ArrayList<String>();
+  boolean invalidTrade = false;
+  boolean done = false;
+  
+  public Trades()
+  {
+    //start();
+  }
+  
+  public void start()
+  {
+    char decision;
+    System.out.printf("Enter 'Y' to begin the trading system or 'N' to exit:");
+    decision = input.next().charAt(0);
+    if(decision == 'N')
+    {
+      System.out.printf("%nTahnk you! Exiting Program");
+      return;
+    }
+    processTrades();
+    displayTrades();
+  }
+  
+  public void processTrades()
+  {
+    double commission = 0.0, totalCost = 0.0, onlineFee = 5.95;
+    int size, counter = 0;
+    char onlineTrade, brokerAssisted, anotherPerson = 'Y';
+    String stockPurchases, personName;
+    do
+    {
+      counter++;
+      System.out.printf("%nEnter %sthe trader\'s first and last name? ", counter > 1 ? "next " : "");
+      //assign final output header to stockPurchases
+      stockPurchases = input.nextLine();
+      System.out.printf("%nOnce you have your list of stocks, enter the number of stocks you want to purchase. You will be limited to the number you enter: ");
+//      while(done == false)
+//      {
+//        if(input.hasNextInt())
+//        {
+//          size = input.nextInt();
+//          stockTrades = new Stock[size];
+//          done = true;
+//        }
+//        else
+//        {
+//          System.out.printf("%nInvalid. Enter the number of stocks you want you purchase: ");
+//        }
+//      }
+      if(!input.hasNextInt())
+      {
+      do
+      {
+       System.out.print("%nInvalid. Enter the number of stocks you want to purchase: ");
+      }while(done == false);
+      }
+      size = input.nextInt();
+      
+      done = false;
+      for(int i = 0; i < size; i ++)
+      {
+        System.out.printf("%nWhat is the name of your stock? ");
+        stockTrades[i].setStockName();
+        System.out.printf("%nHow many shares did you purchase? ");
+        stockTrades[i].setShares();
+        System.out.printf("%nWhat is the price per share? ");
+        stockTrades[i].setSharePrice();
+        stockTrades[i].calcStockCost();
+        totalCost += stockTrades[i].getStockCost();
+        System.out.printf("%nIs this an online trade? Enter 'Y' or 'N': ");
+        onlineTrade = input.next().charAt(0);
+        if(onlineTrade == 'Y')
+        {
+         totalCost += onlineFee;
+         commission = 0.0;
+        }
+        System.out.printf("%nIs this a broker assisted trade? Enter 'Y' or 'N': ");
+        brokerAssisted = input.next().charAt(0);
+        if(brokerAssisted == 'Y')
+        {
+         onlineFee = 0.0;
+         commission = stockTrades[i].getStockCost() * .2;
+         totalCost += commission;
+        }
+        else if(brokerAssisted == 'N')
+        {
+         System.out.printf("%nINVALID TRADE TYPE! Exiting program.");
+         invalidTrade = true;
+         stockPurchases = null;
+        }
+        if(invalidTrade == false)
+        {
+         tradingStmts.add(stockPurchases); 
+        }
+        //says to reset this, but that seems odd 
+        if(invalidTrade == true)
+        {
+          totalCost = 0.0;
+          anotherPerson = 'N';
+        }
+        tradingStmts.add(stockPurchases);
+        System.out.printf("%nWill trades continue for another person? Enter 'Y' or 'N': ");
+        anotherPerson = input.next().charAt(0);
+      }
+    }while(anotherPerson != 'N');
+  }
+  
+  public void displayTrades()
+  {
+    for(int i = 0; i < 3; i++)
+    {
+      String date = String.format("%1$TB %1$TD, %1$TY", dateTime);
+      System.out.printf("%nSTOCK PURCHASE FOR %S%nAS OF %S", tradingStmts.get(i), dateTime);
+      System.out.printf("%nStock: %S", stockTrades[i].getStockName());
+      System.out.printf("%nNo. of Shares: %d", stockTrades[i].getShares());
+      System.out.printf("%nPrice Per Share: $%0.2lf", stockTrades[i].getSharePrice());
+      System.out.printf("%nCost of Stock: $%0.2lf", stockTrades[i].getStockCost());
+      //System.out.printf("%Online Fee: %0.2lf", /*online fee for stock*/);
+      //System.out.printf("%nCommission: %0.2lf", /*commission price*/);
+      //System.out.printf("%nTotal Cost: $0.2lf", /*total cost*/);
+    }
+    System.out.printf("%nAll trading statements habe been printed.");
+  }
+}

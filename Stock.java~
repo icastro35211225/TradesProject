@@ -1,0 +1,119 @@
+import java.util.Scanner;
+import java.util.InputMismatchException;
+//package Stock;
+
+public class Stock
+{
+  String stockName;
+  int shares;
+  double sharePrice, stockCost;
+  Scanner input = new Scanner(System.in); 
+  //to see if input is a valid input
+  boolean done = false;
+  
+  public Stock()
+  {
+    //IDK if this right
+    //Stock(stockName);
+  }
+  
+  public Stock(String stockName)
+  {
+    //IDK if this right
+    setStockName();
+    setShares();
+    setSharePrice();
+    calcStockCost();
+  }
+  
+  public void setStockName()
+  {
+    setStockName(stockName);
+  }
+  
+  public void setStockName(String stock)
+  {
+    while(done == false)
+    {
+      try
+      {
+        stock = input.nextLine();
+        done = true;
+      }
+      catch(InputMismatchException e)
+      {
+        System.out.printf("%nInvalid. Please re-enter stock name: ");
+      }
+    }
+    done = false;
+  }
+  public void setShares()
+  {
+    setShares(shares);
+  }
+  
+  public void setShares(int noShares)
+  {
+    while(done == false)
+    {
+      try
+      {
+        noShares = input.nextInt();
+        done = true;
+      }
+      catch(InputMismatchException e)
+      {
+        System.out.printf("%nInvalid. Please re-enter the number of shares: ");
+      }
+    }
+    done = false;
+  }
+
+  public void setSharePrice()
+  {
+    setSharePrice(sharePrice);
+  }
+  
+  public void setSharePrice(double pricePerShare)
+  {
+    while(done == false)
+    {
+      try
+      {
+        pricePerShare = input.nextDouble();
+        done = true;
+      }
+      catch(InputMismatchException e)
+      {
+        System.out.printf("%nInvalid. Please re-enter the price of share: ");
+      }
+    }
+    done = false;
+  }
+  
+  public void calcStockCost()
+  {
+    //IDK if this right
+    stockCost = (double)shares * sharePrice;
+  }
+  
+  public String getStockName()
+  {
+    return this.stockName;
+  }
+  
+  public int getShares()
+  {
+    return this.shares;
+  }
+  
+  public double getSharePrice()
+  {
+    return this.sharePrice;
+  }
+  
+  public double getStockCost()
+  {
+    return this.stockCost;
+  }
+}

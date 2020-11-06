@@ -1,0 +1,8 @@
+#DrJava configuration file
+#Wed Nov 04 01:02:58 CST 2020
+debug.message.color = #000000
+key.delete.next = [shift DELETE]
+key.delete.previous = [shift BACK_SPACE]
+last.dir = C:\\Users\\olgeu
+last.interactions.dir = C:\\Users\\olgeu
+file.ext.registration = always
